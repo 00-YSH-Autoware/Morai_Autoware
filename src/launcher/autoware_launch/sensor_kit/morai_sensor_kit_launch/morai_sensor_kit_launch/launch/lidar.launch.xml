@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- MORAI /lidar/points 를 전처리 체인에 넣고 concatenated 로 내보내는 런치 -->
+<launch>
+  <arg name="pointcloud_container_name" default="pointcloud_container"/>
+  <arg name="vehicle_mirror_param_file"/>
+  <arg name="input_pointcloud" default="/lidar/points" description="MORAI raw pointcloud topic"/>
+
+  <group>
+    <push-ros-namespace namespace="lidar"/>
+
+    <!-- MORAI raw /lidar/points -> 전처리 체인 입력 토픽으로 relay -->
+    <load_composable_node target="$(var pointcloud_container_name)">
+      <composable_node pkg="topic_tools" plugin="topic_tools::RelayNode" name="morai_lidar_relay" namespace="top">
+        <param name="input_topic" value="$(var input_pointcloud)"/>
+        <param name="output_topic" value="/sensing/lidar/top/pointcloud_before_sync"/>
+        <param name="type" value="sensor_msgs/msg/PointCloud2"/>
+      </composable_node>
+    </load_composable_node>
+
+    <!-- self/mirror crop -> /sensing/lidar/concatenated/pointcloud -->
+    <include file="$(find-pkg-share morai_sensor_kit_launch)/launch/pointcloud_preprocessor.launch.py">
+      <arg name="use_intra_process" value="true"/>
+      <arg name="use_multithread" value="true"/>
+      <arg name="pointcloud_container_name" value="$(var pointcloud_container_name)"/>
+      <arg name="vehicle_mirror_param_file" value="$(var vehicle_mirror_param_file)"/>
+      <arg name="input_frame" value="base_link"/>
+      <arg name="output_frame" value="base_link"/>
+    </include>
+  </group>
+</launch>

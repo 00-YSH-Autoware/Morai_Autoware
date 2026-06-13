@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>morai_sensor_kit_launch</name>
+  <version>0.1.0</version>
+  <description>The morai_sensor_kit_launch package - sensing launch for the MORAI simulator</description>
+  <maintainer email="yshgit@gmail.com">YSH</maintainer>
+  <license>Apache License 2.0</license>
+
+  <buildtool_depend>ament_cmake_auto</buildtool_depend>
+
+  <depend>morai_sensor_kit_description</depend>
+
+  <exec_depend>autoware_gnss_poser</exec_depend>
+  <exec_depend>autoware_imu_corrector</exec_depend>
+  <exec_depend>autoware_pointcloud_preprocessor</exec_depend>
+  <exec_depend>autoware_vehicle_velocity_converter</exec_depend>
+  <exec_depend>autoware_launch</exec_depend>
+  <exec_depend>topic_tools</exec_depend>
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <!-- 런타임 전용: MORAI 브리지 워크스페이스(install/morai_ros2_msgs)에서 오버레이 소싱.
+       autoware ws 에는 없으므로 rosdep 로 설치하려 하지 말 것. 빌드는 이 패키지를 필요로 하지 않음. -->
+  <!-- <exec_depend>morai_ros2_msgs</exec_depend> -->
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

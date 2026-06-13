@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- MORAI sensor kit sensing 진입점 — LiDAR/IMU/GNSS/velocity 를 Autoware 표준 토픽으로 변환 -->
+<launch>
+  <!-- tier4_sensing_launch 계약 인자 (MORAI 는 하드웨어 드라이버 불필요) -->
+  <arg name="launch_driver" default="false"/>
+  <arg name="vehicle_mirror_param_file" description="path to the file of vehicle mirror position yaml"/>
+  <arg name="pointcloud_container_name" default="pointcloud_container"/>
+
+  <!-- 단독 실행 시 자체 pointcloud_container 를 띄움 (full Autoware 경로에선 상위가 생성) -->
+  <arg name="use_standalone_container" default="false"/>
+
+  <!-- MORAI 가 센서에 박는 frame_id 가 다르면 여기서 맞춤 -->
+  <arg name="input_pointcloud" default="/lidar/points"/>
+  <arg name="input_imu" default="/Imu"/>
+  <arg name="input_gps" default="/gps"/>
+
+  <group>
+    <!-- 단독 실행용 컨테이너 -->
+    <include if="$(var use_standalone_container)" file="$(find-pkg-share autoware_launch)/launch/pointcloud_container.launch.py">
+      <arg name="container_name" value="$(var pointcloud_container_name)"/>
+      <arg name="use_multithread" value="true"/>
+    </include>
+
+    <!-- LiDAR -->
+    <include file="$(find-pkg-share morai_sensor_kit_launch)/launch/lidar.launch.xml">
+      <arg name="pointcloud_container_name" value="$(var pointcloud_container_name)"/>
+      <arg name="vehicle_mirror_param_file" value="$(var vehicle_mirror_param_file)"/>
+      <arg name="input_pointcloud" value="$(var input_pointcloud)"/>
+    </include>
+
+    <!-- IMU -->
+    <include file="$(find-pkg-share morai_sensor_kit_launch)/launch/imu.launch.xml">
+      <arg name="input_imu" value="$(var input_imu)"/>
+    </include>
+
+    <!-- GNSS -->
+    <include file="$(find-pkg-share morai_sensor_kit_launch)/launch/gnss.launch.xml">
+      <arg name="input_gps" value="$(var input_gps)"/>
+    </include>
+
+    <!-- Vehicle Velocity Converter (브리지가 /vehicle/status/velocity_status 발행) -->
+    <include file="$(find-pkg-share autoware_vehicle_velocity_converter)/launch/vehicle_velocity_converter.launch.xml">
+      <arg name="input_vehicle_velocity_topic" value="/vehicle/status/velocity_status"/>
+      <arg name="output_twist_with_covariance" value="/sensing/vehicle_velocity_converter/twist_with_covariance"/>
+    </include>
+  </group>
+</launch>

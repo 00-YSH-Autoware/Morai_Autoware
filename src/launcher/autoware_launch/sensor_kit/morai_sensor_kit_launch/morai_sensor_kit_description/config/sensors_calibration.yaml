@@ -1,0 +1,10 @@
+# base_link -> sensor_kit_base_link 변환 (MORAI sensor kit)
+# 차량(base_link) 기준 센서킷 베이스의 위치. 기본은 동일 위치(0).
+base_link:
+  sensor_kit_base_link:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    roll: 0.0
+    pitch: 0.0
+    yaw: 0.0

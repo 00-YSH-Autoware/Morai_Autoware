@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- MORAI /gps(GPSMessage) -> NavSatFix -> gnss_poser -> /sensing/gnss/pose_with_covariance 런치 -->
+<launch>
+  <arg name="input_gps" default="/gps" description="MORAI raw GPS topic (morai_ros2_msgs/GPSMessage)"/>
+  <arg name="gnss_frame" default="gnss_link"/>
+  <let name="navsatfix_topic" value="/sensing/gnss/ublox/nav_sat_fix"/>
+
+  <group>
+    <push-ros-namespace namespace="gnss"/>
+
+    <!-- GPSMessage -> NavSatFix (lat/lon passthrough) -->
+    <node pkg="morai_sensor_kit_launch" exec="gps_to_navsatfix.py" name="gps_to_navsatfix" output="both">
+      <param name="input_topic" value="$(var input_gps)"/>
+      <param name="output_topic" value="$(var navsatfix_topic)"/>
+      <param name="frame_id" value="$(var gnss_frame)"/>
+    </node>
+
+    <!-- NavSatFix -> map 프레임 pose. use_gnss_ins_orientation 은 param_file 에서 false. -->
+    <include file="$(find-pkg-share autoware_gnss_poser)/launch/gnss_poser.launch.xml">
+      <arg name="input_topic_fix" value="$(var navsatfix_topic)"/>
+      <arg name="output_topic_gnss_pose_cov" value="/sensing/gnss/pose_with_covariance"/>
+      <arg name="param_file" value="$(find-pkg-share morai_sensor_kit_launch)/config/gnss_poser.param.yaml"/>
+    </include>
+  </group>
+</launch>
