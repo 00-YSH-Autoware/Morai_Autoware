@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!-- MORAI sensor kit 의 센서 프레임(velodyne_top/imu_link/gnss_link)을 정의하는 최소 xacro 매크로 -->
+<!-- MORAI sensor kit 의 센서 프레임(lidar/imu/gnss_link)을 정의하는 최소 xacro 매크로 -->
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
   <xacro:macro name="sensor_kit_macro" params="parent x y z roll pitch yaw">
     <xacro:arg name="config_dir" default="$(find morai_sensor_kit_description)/config"/>
@@ -14,32 +14,32 @@
     <link name="${sensor_kit_base_link}"/>
 
     <!-- LiDAR -->
-    <joint name="velodyne_top_joint" type="fixed">
+    <joint name="lidar_joint" type="fixed">
       <origin
-        xyz="${calibration['sensor_kit_base_link']['velodyne_top']['x']}
-             ${calibration['sensor_kit_base_link']['velodyne_top']['y']}
-             ${calibration['sensor_kit_base_link']['velodyne_top']['z']}"
-        rpy="${calibration['sensor_kit_base_link']['velodyne_top']['roll']}
-             ${calibration['sensor_kit_base_link']['velodyne_top']['pitch']}
-             ${calibration['sensor_kit_base_link']['velodyne_top']['yaw']}"/>
+        xyz="${calibration['sensor_kit_base_link']['lidar']['x']}
+             ${calibration['sensor_kit_base_link']['lidar']['y']}
+             ${calibration['sensor_kit_base_link']['lidar']['z']}"
+        rpy="${calibration['sensor_kit_base_link']['lidar']['roll']}
+             ${calibration['sensor_kit_base_link']['lidar']['pitch']}
+             ${calibration['sensor_kit_base_link']['lidar']['yaw']}"/>
       <parent link="${sensor_kit_base_link}"/>
-      <child link="velodyne_top"/>
+      <child link="lidar"/>
     </joint>
-    <link name="velodyne_top"/>
+    <link name="lidar"/>
 
     <!-- IMU -->
-    <joint name="imu_link_joint" type="fixed">
+    <joint name="imu_joint" type="fixed">
       <origin
-        xyz="${calibration['sensor_kit_base_link']['imu_link']['x']}
-             ${calibration['sensor_kit_base_link']['imu_link']['y']}
-             ${calibration['sensor_kit_base_link']['imu_link']['z']}"
-        rpy="${calibration['sensor_kit_base_link']['imu_link']['roll']}
-             ${calibration['sensor_kit_base_link']['imu_link']['pitch']}
-             ${calibration['sensor_kit_base_link']['imu_link']['yaw']}"/>
+        xyz="${calibration['sensor_kit_base_link']['imu']['x']}
+             ${calibration['sensor_kit_base_link']['imu']['y']}
+             ${calibration['sensor_kit_base_link']['imu']['z']}"
+        rpy="${calibration['sensor_kit_base_link']['imu']['roll']}
+             ${calibration['sensor_kit_base_link']['imu']['pitch']}
+             ${calibration['sensor_kit_base_link']['imu']['yaw']}"/>
       <parent link="${sensor_kit_base_link}"/>
-      <child link="imu_link"/>
+      <child link="imu"/>
     </joint>
-    <link name="imu_link"/>
+    <link name="imu"/>
 
     <!-- GNSS -->
     <joint name="gnss_link_joint" type="fixed">

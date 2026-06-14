@@ -2,8 +2,9 @@
 # MORAI 는 lidar/imu 를 동일 위치/자세(identity extrinsic)로 두는 것을 전제로 한다.
 # 실제 MORAI Sensor-Settings 의 센서 마운트에 맞춰 값을 조정할 것.
 sensor_kit_base_link:
-  # LiDAR (지붕). 기본 높이 1.8 m — MORAI 마운트에 맞게 조정.
-  velodyne_top:
+  # LiDAR (지붕). 프레임명은 MORAI /lidar/points 의 header.frame_id(lidar)와 일치시킴.
+  # 기본 높이 1.8 m — MORAI 마운트에 맞게 조정.
+  lidar:
     x: 0.0
     y: 0.0
     z: 1.8
@@ -11,8 +12,8 @@ sensor_kit_base_link:
     pitch: 0.0
     yaw: 0.0
 
-  # IMU. lidar 와 동일 위치/자세 전제.
-  imu_link:
+  # IMU. 프레임명은 MORAI /Imu 의 header.frame_id(imu)와 일치. lidar 와 동일 위치/자세 전제.
+  imu:
     x: 0.0
     y: 0.0
     z: 1.8
