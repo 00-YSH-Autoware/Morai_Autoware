@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!-- MORAI ego(2016 Hyundai Ioniq) 의 base_link + 치수 기반 박스 비주얼 (RViz 표시용) -->
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <!-- load parameter -->
+  <xacro:property name="vehicle_info" value="${xacro.load_yaml('$(find morai_vehicle_description)/config/vehicle_info.param.yaml')}"/>
+  <xacro:property name="p" value="${vehicle_info['/**']['ros__parameters']}"/>
+
+  <!-- 치수에서 박스 크기/중심 계산. base_link 는 뒷차축 중심(지면). -->
+  <xacro:property name="length" value="${p['front_overhang'] + p['wheel_base'] + p['rear_overhang']}"/>
+  <xacro:property name="width" value="${p['wheel_tread'] + p['left_overhang'] + p['right_overhang']}"/>
+  <xacro:property name="height" value="${p['vehicle_height']}"/>
+  <xacro:property name="cx" value="${(p['wheel_base'] + p['front_overhang'] - p['rear_overhang']) / 2.0}"/>
+  <xacro:property name="cz" value="${height / 2.0}"/>
+
+  <!-- vehicle body -->
+  <link name="base_link">
+    <visual>
+      <origin xyz="${cx} 0 ${cz}" rpy="0 0 0"/>
+      <geometry>
+        <box size="${length} ${width} ${height}"/>
+      </geometry>
+    </visual>
+  </link>
+</robot>

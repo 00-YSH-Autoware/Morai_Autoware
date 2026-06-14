@@ -1,0 +1,17 @@
+# MORAI ego 차량(2016 Hyundai Ioniq, AE)의 기하학적 제원.
+# 실차 공개 제원 기반(전장 4470 / 전폭 1820 / 전고 1450 mm, wheel_base 2700 mm).
+# 내부 정합: front_overhang + wheel_base + rear_overhang = 4.47 m,
+#            wheel_tread + left_overhang + right_overhang = 1.82 m.
+# overhang 앞뒤 분배와 tread 는 추정치 — 실제 MORAI ego 와 다르면 조정할 것.
+/**:
+  ros__parameters:
+    wheel_radius: 0.317 # 195/65 R15 기준 타이어 반경
+    wheel_width: 0.215
+    wheel_base: 2.70 # 앞바퀴 중심 ~ 뒷바퀴 중심
+    wheel_tread: 1.56 # 좌우 바퀴 중심 간
+    front_overhang: 0.88 # 앞바퀴 중심 ~ 차량 앞끝
+    rear_overhang: 0.89 # 뒷바퀴 중심 ~ 차량 뒤끝
+    left_overhang: 0.13 # 좌측 바퀴 중심 ~ 차량 좌측
+    right_overhang: 0.13 # 우측 바퀴 중심 ~ 차량 우측
+    vehicle_height: 1.45
+    max_steer_angle: 0.60 # [rad] — 실제 조향한계는 브리지가 런타임 gRPC(get_vehicle_spec)로 받음

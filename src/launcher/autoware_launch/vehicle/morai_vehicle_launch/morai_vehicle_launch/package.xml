@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>morai_vehicle_launch</name>
+  <version>0.1.0</version>
+  <description>The morai_vehicle_launch package - vehicle interface launch for the MORAI ego (handled by the bridge)</description>
+  <maintainer email="yshgit@gmail.com">YSH</maintainer>
+  <license>Apache License 2.0</license>
+
+  <buildtool_depend>ament_cmake_auto</buildtool_depend>
+
+  <exec_depend>morai_vehicle_description</exec_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

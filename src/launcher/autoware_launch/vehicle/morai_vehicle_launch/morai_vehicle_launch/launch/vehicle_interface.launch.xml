@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- MORAI vehicle interface 스텁 — 실제 인터페이스는 브리지(Morai_Autoware_Bridge/scripts/main.py)가 담당.
+     브리지가 /control/command/* 를 구독해 MORAI 로 제어를 넘기고 /vehicle/status/* 를 발행하므로
+     여기서 띄울 하드웨어/변환 노드는 없다. (AWSIM/CARLA 처럼 시뮬레이터가 인터페이스 역할) -->
+<launch>
+  <arg name="vehicle_id" default="$(env VEHICLE_ID default)"/>
+</launch>

@@ -1,0 +1,9 @@
+# 사이드미러 영역을 포인트클라우드에서 crop 하기 위한 박스 오프셋 (Ioniq 근사, 필요 시 조정).
+/**:
+  ros__parameters:
+    min_longitudinal_offset: 1.6
+    max_longitudinal_offset: 2.2
+    min_lateral_offset: -1.1
+    max_lateral_offset: 1.1
+    min_height_offset: 0.9
+    max_height_offset: 1.3
