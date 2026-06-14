@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
   <!-- Essential parameters -->
-  <arg name="use_sim_time" default="true" description="use simulation time"/>
-  <arg name="map_path" description="point cloud and lanelet2 map directory path"/>
-  <arg name="vehicle_model" default="sample_vehicle" description="vehicle model name"/>
-  <arg name="sensor_model" default="sample_sensor_kit" description="sensor model name"/>
-  <arg name="data_path" default="$(env HOME)/autoware_data/ml_models" description="packages data and artifacts directory path"/>
-  <arg name="simulator_type" default="awsim" description="select the simulator type ('awsim' or 'carla')"/>
+  <arg name="use_sim_time" default="false" description="use simulation time"/>
+  <arg name="map_path" default="/home/ysh/Documents/Docker/Humble/Autoware/Autoware_Map/Morai/C_Track" description="point cloud and lanelet2 map directory path"/>
+  <arg name="vehicle_model" default="morai_vehicle" description="vehicle model name"/>
+  <arg name="sensor_model" default="morai_sensor_kit" description="sensor model name"/>
+  <arg name="data_path" default="/home/ysh/Documents/Docker/Humble/Autoware/autoware_data/ml_models" description="packages data and artifacts directory path"/>
+  <arg name="simulator_type" default="morai" description="select the simulator type ('awsim', 'carla', or 'morai'). morai loads autoware-morai.yaml (sim-relaxed diagnostics) and does not launch the carla interface."/>
 
   <!-- launch module preset -->
   <arg name="planning_module_preset" default="default" description="planning module preset"/>
