@@ -8,14 +8,12 @@
   <group>
     <push-ros-namespace namespace="lidar"/>
 
-    <!-- MORAI raw /lidar/points -> 전처리 체인 입력 토픽으로 relay -->
-    <load_composable_node target="$(var pointcloud_container_name)">
-      <composable_node pkg="topic_tools" plugin="topic_tools::RelayNode" name="morai_lidar_relay" namespace="top">
-        <param name="input_topic" value="$(var input_pointcloud)"/>
-        <param name="output_topic" value="/sensing/lidar/top/pointcloud_before_sync"/>
-        <param name="type" value="sensor_msgs/msg/PointCloud2"/>
-      </composable_node>
-    </load_composable_node>
+    <!-- MORAI raw /lidar/points(PointXYZI) -> PointXYZIRC 로 변환해 전처리 체인 입력으로.
+         최신 crop box 는 XYZIRC 만 받으므로 XYZI 면 abort 한다. -->
+    <node pkg="morai_sensor_kit_launch" exec="pointcloud_xyzi_to_xyzirc.py" name="pointcloud_xyzi_to_xyzirc" output="both">
+      <param name="input_topic" value="$(var input_pointcloud)"/>
+      <param name="output_topic" value="/sensing/lidar/top/pointcloud_before_sync"/>
+    </node>
 
     <!-- self/mirror crop -> /sensing/lidar/concatenated/pointcloud -->
     <include file="$(find-pkg-share morai_sensor_kit_launch)/launch/pointcloud_preprocessor.launch.py">
