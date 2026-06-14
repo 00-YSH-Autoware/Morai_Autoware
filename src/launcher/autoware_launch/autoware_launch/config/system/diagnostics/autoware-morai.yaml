@@ -93,7 +93,9 @@ units:
         list:
           - { type: link, link: /autoware/localization/scan_matching_status }
           - { type: link, link: /autoware/localization/accuracy }
-          - { type: link, link: /autoware/localization/sensor_fusion_status }
+          # sensor_fusion_status(ekf_localizer) 는 MORAI 지터(/Imu 40Hz 불규칙, lidar 9Hz)로
+          # "pose topic delay / mahalanobis large" WARN 이 깜빡여 autonomous 가용을 막아 제외.
+          # scan_matching_status·accuracy 같은 실질 NDT 품질 체크는 유지.
 
   - path: /autoware/localization/state
     type: diag

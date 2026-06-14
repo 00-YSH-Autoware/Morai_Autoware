@@ -82,4 +82,17 @@
       <arg name="rviz_config" value="$(var rviz_config)"/>
     </include>
   </group>
+
+  <!-- MORAI: sim 에는 control_command_gate 노드가 없어 node_alive_monitoring 진단이 STALE →
+       /autoware/control ERROR → is_autonomous_mode_available=false. CARLA 가 쓰던 방식대로
+       dummy_diag 로 그 진단을 OK 로 박아 availability 를 유지한다. -->
+  <group if="$(eval &quot;'$(var simulator_type)' == 'morai'&quot;)">
+    <node pkg="autoware_dummy_diag_publisher" exec="autoware_dummy_diag_publisher_node" name="dummy_diag_publisher_morai" output="screen">
+      <param name="update_rate" value="10.0"/>
+      <param name="required_diags.control_command_gate: timeout_output.is_active" value="true" type="str"/>
+      <param name="required_diags.control_command_gate: timeout_output.status" value="OK" type="str"/>
+      <param name="required_diags.control_command_gate: timeout_builtin.is_active" value="true" type="str"/>
+      <param name="required_diags.control_command_gate: timeout_builtin.status" value="OK" type="str"/>
+    </node>
+  </group>
 </launch>
