@@ -1,17 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- MORAI /Imu 를 imu_corrector 로 보정해 /sensing/imu/imu_data 로 내보내는 런치 -->
 <launch>
-  <arg name="input_imu" default="/Imu" description="MORAI raw IMU topic"/>
+  <arg name="input_imu" default="/Imu" description="MORAI raw IMU topic (BEST_EFFORT)"/>
+  <let name="imu_raw" value="/sensing/imu/imu_raw"/>
 
   <group>
     <push-ros-namespace namespace="imu"/>
+
+    <!-- MORAI /Imu(BEST_EFFORT) -> RELIABLE 중계. imu_corrector 가 RELIABLE 구독이라
+         best_effort 를 그대로는 못 받아 imu_data 가 안 나오는 문제를 푼다. -->
+    <node pkg="morai_sensor_kit_launch" exec="imu_qos_relay.py" name="imu_qos_relay" output="both">
+      <param name="input_topic" value="$(var input_imu)"/>
+      <param name="output_topic" value="$(var imu_raw)"/>
+    </node>
+
     <include file="$(find-pkg-share autoware_imu_corrector)/launch/imu_corrector.launch.xml">
-      <arg name="input_topic" value="$(var input_imu)"/>
+      <arg name="input_topic" value="$(var imu_raw)"/>
       <arg name="output_topic" value="imu_data"/>
     </include>
 
     <include file="$(find-pkg-share autoware_imu_corrector)/launch/gyro_bias_estimator.launch.xml">
-      <arg name="input_imu_raw" value="$(var input_imu)"/>
+      <arg name="input_imu_raw" value="$(var imu_raw)"/>
       <arg name="input_odom" value="/localization/kinematic_state"/>
       <arg name="input_pose_ndt" value="/localization/pose_estimator/pose_with_covariance"/>
     </include>

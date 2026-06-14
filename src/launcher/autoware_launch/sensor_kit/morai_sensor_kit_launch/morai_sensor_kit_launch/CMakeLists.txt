@@ -7,6 +7,7 @@ ament_auto_find_build_dependencies()
 install(PROGRAMS
   scripts/gps_to_navsatfix.py
   scripts/pointcloud_xyzi_to_xyzirc.py
+  scripts/imu_qos_relay.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
