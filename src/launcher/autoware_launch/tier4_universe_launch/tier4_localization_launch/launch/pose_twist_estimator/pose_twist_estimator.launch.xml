@@ -6,7 +6,9 @@
   <let name="stop_check_enabled" if="$(eval &quot;'$(var system_run_mode)'=='logging_simulation'&quot;)" value="false"/>
 
   <!-- When gnss_enabled is false, automatic_pose_initializer will not run, only manual initial position estimation is available. -->
-  <arg name="gnss_enabled" default="true" description="gnss availability for initial position estimation"/>
+  <!-- MORAI: map_projector_info 가 Local 이라 gnss_poser 가 GPS pose 를 못 만든다. 자동 GNSS 초기화를
+       끄고(automatic_pose_initializer 미실행) RViz 2D Pose Estimate 수동 초기화만 사용한다. -->
+  <arg name="gnss_enabled" default="false" description="gnss availability for initial position estimation"/>
 
   <!-- split string with underscores -->
   <let name="available_args" value="[\'ndt\',\'yabloc\',\'eagleye\',\'artag\',\'lidar-marker\']"/>
