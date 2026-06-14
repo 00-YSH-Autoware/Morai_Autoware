@@ -1,22 +1,21 @@
 # sensor_kit_base_link 기준 각 센서 프레임 오프셋 (MORAI sensor kit)
-# Autoware base_link = 뒷차축 중심(지면). MORAI 는 센서를 뒷차축 +1m 앞에 마운트했으므로 x=1.0.
-# (x 가 0 이면 NDT 가 계산한 ego 위치가 ~1m 어긋나 trajectory 투영/자율주행 가용 판정이 틀어짐.)
-# y(횡)·z(높이)는 MORAI Sensor-Settings 실측값으로 조정할 것 (현재 z=1.8 은 추정).
+# Autoware base_link = 뒷차축 중심(지면). MORAI Sensor-Settings 실측 마운트값.
+# 센서는 뒷차축 +1m 앞(x=1.0). lidar 높이 1.3 m, imu/gnss 1.15 m.
 sensor_kit_base_link:
   # LiDAR (지붕). 프레임명은 MORAI /lidar/points 의 header.frame_id(lidar)와 일치.
   lidar:
     x: 1.0
     y: 0.0
-    z: 1.8
+    z: 1.3
     roll: 0.0
     pitch: 0.0
     yaw: 0.0
 
-  # IMU. 프레임명은 MORAI /Imu 의 header.frame_id(imu)와 일치. lidar 와 동일 위치 전제.
+  # IMU. 프레임명은 MORAI /Imu 의 header.frame_id(imu)와 일치.
   imu:
     x: 1.0
     y: 0.0
-    z: 1.8
+    z: 1.15
     roll: 0.0
     pitch: 0.0
     yaw: 0.0
@@ -25,7 +24,7 @@ sensor_kit_base_link:
   gnss_link:
     x: 1.0
     y: 0.0
-    z: 1.8
+    z: 1.15
     roll: 0.0
     pitch: 0.0
     yaw: 0.0
